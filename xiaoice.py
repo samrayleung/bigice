@@ -1,4 +1,6 @@
-# coding=utf-8
+#!/usr/bin/env python3
+# # -*- coding: utf-8 -*-
+# author:Samray <samrayleung@gmail.com>
 import pdb
 
 import itchat
@@ -32,7 +34,7 @@ def send(self, msg, toUserName=None, mediaId=None):
 
 
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING], True, False, False)
-# get text and send to XiaoIce # 将文字等信息转发给小冰
+#  将文字等信息转发给小冰
 def send_xiaoice(msg):
     global name
     name = msg['FromUserName']
@@ -60,7 +62,7 @@ def send_reply(msg):
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO], False, False, True)
 # 将小冰回复的图片等信息转发给发送者
-def send_xiaoice(msg):
+def send_reply(msg):
     global name
     msg['Text'](msg['FileName'])
     itchat.send('@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(
