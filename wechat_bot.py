@@ -1,20 +1,23 @@
 # coding=utf8
 import json
-import os
-import sys
+import random
 
 import itchat
 import requests
+
+from reply import (ATTACHMENT_REPLY, CARD_REPLY, MAP_REPLY, NOTE_REPLY,
+                   PICTURE_REPLY, RECORDING_REPLY, SHARING_REPLY, VIDEO_REPLY)
 
 try:
     with open('tuling.json') as f:
         key = json.loads(f.read())['key']
 except:
-    key = ''  # if key is '', get_response will return None
-    # raise Exception('There is something wrong with the format of you plugin/config/tuling.json')
+    # key = ''  # if key is '', get_response will return None
+    raise Exception(
+        'There is something wrong with tuling.json')
 
 
-def get_response(msg, storageClass=None, userName=None, userid='ItChat'):
+def get_response(msg, storageClass=None, userName=None, userid='samray'):
     url = 'http://www.tuling123.com/openapi/api'
     payloads = {
         'key': key,
@@ -49,35 +52,52 @@ def get_response(msg, storageClass=None, userName=None, userid='ItChat'):
 
 @itchat.msg_register('Text')
 def text_reply(msg):
-    if u'作者' in msg['Text'] or u'主人' in msg['Text']:
-        return u'你可以在这里了解他：https://github.com/littlecodersh'
-    elif u'源代码' in msg['Text'] or u'获取文件' in msg['Text']:
-        itchat.send('@fil@main.py', msg['FromUserName'])
-        return u'这就是现在机器人后台的代码，是不是很简单呢？'
-    elif u'获取图片' in msg['Text']:
-        # there should be a picture
-        itchat.send('@img@applaud.gif', msg['FromUserName'])
+    if u"关于" in msg['Text'] or u"主人" in msg['Text']:
+        return u'你可以在这里了解他：https://github.com/samrayleung'
+    elif u"感谢" in msg['Text'] or u"致谢" in msg['Text'] or u"参考" in msg['Text']:
+        return u"感谢 littlecodersh, 谢谢他的分享：https://github.com/littlecodersh"
     else:
         return get_response(msg['Text']) or u'收到：' + msg['Text']
 
 
-@itchat.msg_register(['Picture', 'Recording', 'Attachment', 'Video'])
-def atta_reply(msg):
-    return ({'Picture': u'图片', 'Recording': u'录音',
-             'Attachment': u'附件', 'Video': u'视频', }.get(msg['Type']) +
-            u'已下载到本地')  # download function is: msg['Text'](msg['FileName'])
+@itchat.msg_register('Picture')
+def image_reply(msg):
+    return random.choice(PICTURE_REPLY)
 
 
-@itchat.msg_register(['Map', 'Card', 'Note', 'Sharing'])
-def mm_reply(msg):
-    if msg['Type'] == 'Map':
-        return u'收到位置分享'
-    elif msg['Type'] == 'Sharing':
-        return u'收到分享' + msg['Text']
-    elif msg['Type'] == 'Note':
-        return u'收到：' + msg['Text']
-    elif msg['Type'] == 'Card':
-        return u'收到好友信息：' + msg['Text']['Alias']
+@itchat.msg_register('Recording')
+def recording_reply(msg):
+    return random.choice(RECORDING_REPLY)
+
+
+@itchat.msg_register('Attachment')
+def attachment_reply(msg):
+    return random.choice(ATTACHMENT_REPLY)
+
+
+@itchat.msg_register('Video')
+def video_reply(msg):
+    return random.choice(VIDEO_REPLY)
+
+
+@itchat.msg_register('Map')
+def map_reply(msg):
+    return random.choice(MAP_REPLY)
+
+
+@itchat.msg_register('Card')
+def card_reply(msg):
+    return random.choice(CARD_REPLY)
+
+
+@itchat.msg_register('Note')
+def note_reply(msg):
+    return random.choice(NOTE_REPLY)
+
+
+@itchat.msg_register('Sharing')
+def sharing_reply(msg):
+    return random.choice(SHARING_REPLY)
 
 
 @itchat.msg_register('Text', isGroupChat=True)
