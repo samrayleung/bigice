@@ -107,6 +107,23 @@ def group_reply(msg):
                                  get_response(msg['Text']) or u'收到：' + msg['Text'])
 
 
+def getText(msg):
+    if msg['Type'] == 'Text':
+        return msg['Text']
+    else:
+        return "发送的其他类型回复"
+
+
+def xbAnswer(msg):
+    xb = itchat.search_mps(name='小冰')[0]
+    quest = getText(msg)
+    if msg['Type'] == 'Picture':
+        msg['Text'](msg['FileName'])
+        itchat.send_image(msg['FileName'], xb['UserName'])
+    else:
+        itchat.send_msg(quest, xb['UserName'])
+
+
 @itchat.msg_register('Friends')
 def add_friend(msg):
     itchat.add_friend(**msg['Text'])
