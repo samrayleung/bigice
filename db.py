@@ -97,7 +97,7 @@ def query_ten_messages(db_filename):
             result = dict()
             result['id'] = row['id']
             result['from_user_name'] = row['from_user_name']
-            result['to_user_name'] = row['content']
+            result['to_user_name'] = row['to_user_name']
             result['timestamp'] = row['timestamp']
             result['content'] = row['content']
             results.append(result)
