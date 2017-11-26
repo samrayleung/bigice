@@ -3,6 +3,8 @@
 # author:Samray <samrayleung@gmail.com>
 import pdb
 
+# 使用微软的小冰作为智能回复的 AI, 因为微软没有开放小冰的 api, 但是有接入到微博
+# 和微信平台，所以就要利用微信公众号接口调用小冰
 import itchat
 from itchat.content import (ATTACHMENT, CARD, MAP, NOTE, PICTURE, RECORDING,
                             SHARING, TEXT, VIDEO)
@@ -39,6 +41,7 @@ def send_xiaoice(msg):
     global name
     name = msg['FromUserName']
     xb = itchat.search_mps(name='小冰')[0]
+    print("{}: ".format(name), msg['Text'])
     itchat.send(msg['Text'], xb['UserName'])
 
 
@@ -49,6 +52,7 @@ def send_xiaoice(msg):
     name = msg['FromUserName']
     msg['Text'](msg['FileName'])
     xb = itchat.search_mps(name='小冰')[0]
+    print("{}: send you a pitcure".format(name))
     itchat.send('@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(
         msg['Type'], 'fil'), msg['FileName']), xb['UserName'])
 
@@ -57,6 +61,7 @@ def send_xiaoice(msg):
 # 将小冰回复的文字等信息转发给发送者
 def send_reply(msg):
     global name
+    print("xiaoice reply: ", msg['Text'])
     itchat.send(msg['Text'], name)
 
 
@@ -69,5 +74,5 @@ def send_reply(msg):
         msg['Type'], 'fil'), msg['FileName']), name)
 
 
-itchat.auto_login(hotReload=True)
+itchat.auto_login(enableCmdQR=2)
 itchat.run()

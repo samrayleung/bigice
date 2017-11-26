@@ -127,9 +127,7 @@ def xbAnswer(msg):
 @itchat.msg_register('Friends')
 def add_friend(msg):
     itchat.add_friend(**msg['Text'])
-    itchat.send_msg(u'项目主页：github.com/littlecodersh/ItChat\n'
-                    + u'源代码  ：回复源代码\n' + u'图片获取：回复获取图片\n'
-                    + u'欢迎Star我的项目关注更新！', msg['RecommendInfo']['UserName'])
+    itchat.send_msg(u'Nice to meet you', msg['RecommendInfo']['UserName'])
 
 
 itchat.auto_login(True, enableCmdQR=2)
