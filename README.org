@@ -1,10 +1,5 @@
 #+LATEX_CLASS: samray-org-article
 #+LATEX_CLASS_OPTIONS: [oneside,A4paper,12pt]
-* 参考
-  + http://lafree317.github.io/2017/02/16/%E5%BE%AE%E4%BF%A1%E6%99%BA%E8%83%BD%E5%9B%9E%E5%A4%8D/
-  + https://gist.github.com/littlecodersh/ec8ddab12364323c97d4e36459174f0d
-  + https://itchat.readthedocs.io/zh/latest/
-  + http://blog.just4fun.site/create-a-smart-chat-bot.html
 * 版本一
   调用 chatterbot 库，通过中文语料进行训练
   + train_bot.py 
@@ -15,3 +10,8 @@
   + train.py 对无法根据语义进行回复的预设回复
 * 版本三
   + xiaoice.py 调用 微软小冰进行对话。
+* 参考
+  + http://lafree317.github.io/2017/02/16/%E5%BE%AE%E4%BF%A1%E6%99%BA%E8%83%BD%E5%9B%9E%E5%A4%8D/
+  + https://gist.github.com/littlecodersh/ec8ddab12364323c97d4e36459174f0d
+  + https://itchat.readthedocs.io/zh/latest/
+  + http://blog.just4fun.site/create-a-smart-chat-bot.html

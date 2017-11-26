@@ -5,3 +5,4 @@ env/*
 *.gif
 /venv/*
 *.pkl
+*.db
