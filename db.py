@@ -2,6 +2,9 @@ import os
 import sqlite3
 import time
 
+DB_FILENAME = 'bigice.db'
+SCHEMA_FILENAME = 'schema.sql'
+
 
 class DatabaseManager(object):
     def __init__(self, db, schema_filename):
@@ -32,8 +35,8 @@ class DatabaseManager(object):
 
 
 def create_schema():
-    db_filename = 'bigice.db'
-    schema_filename = 'schema.sql'
+    # db_filename = 'bigice.db'
+    # schema_filename = 'schema.sql'
 
     with sqlite3.connect(db_filename) as conn:
         print('Creating schema')
@@ -53,6 +56,52 @@ def insert_text_message(db_filename, msg):
             'to_user_name': msg['ToUserName'],
             'content': msg['Text'],
             'timestamp': time.time()})
+
+
+def query_all_messages(db_filename=DB_FILENAME):
+    results = []
+    with sqlite3.connect(db_filename) as conn:
+        # Change the row factory to use Row
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("""
+        select id, from_user_name, to_user_name,content,timestamp 
+        from message order by timestamp
+        """)
+
+        print('\nall message:')
+        for row in cursor.fetchall():
+            result = dict()
+            result['id'] = row['id']
+            result['from_user_name'] = row['from_user_name']
+            result['to_user_name'] = row['content']
+            result['timestamp'] = row['timestamp']
+            result['content'] = row['content']
+            results.append(result)
+        return results
+
+
+def query_ten_messages(db_filename):
+    results = []
+    with sqlite3.connect(db_filename) as conn:
+        # Change the row factory to use Row
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("""
+        select id, from_user_name, to_user_name,content,timestamp 
+        from message order by timestamp
+        """)
+
+        print('\nten messages:')
+        for row in cursor.fetchmany(10):
+            result = dict()
+            result['id'] = row['id']
+            result['from_user_name'] = row['from_user_name']
+            result['to_user_name'] = row['content']
+            result['timestamp'] = row['timestamp']
+            result['content'] = row['content']
+            results.append(result)
+        return results
 
 
 if __name__ == "__main__":

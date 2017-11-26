@@ -11,9 +11,7 @@ import itchat
 from db import DatabaseManager, insert_text_message
 from itchat.content import (ATTACHMENT, CARD, MAP, NOTE, PICTURE, RECORDING,
                             SHARING, TEXT, VIDEO)
-
-db_filename = 'bigice.db'
-schema_filename = 'schema.sql'
+from manager import db_filename, schema_filename
 
 global name
 dbmgr = DatabaseManager(db_filename, schema_filename)
@@ -81,11 +79,12 @@ def send_reply(msg):
     itchat.send('@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(
         msg['Type'], 'fil'), msg['FileName']), name)
 
+
 @itchat.msg_register('Friends')
 def add_friend(msg):
     itchat.add_friend(**msg['Text'])
-    itchat.send_msg(u' 就知道你想勾搭我'
-        , msg['RecommendInfo']['UserName'])
+    itchat.send_msg(u' 就知道你想勾搭我', msg['RecommendInfo']['UserName'])
+
 
 itchat.auto_login(enableCmdQR=2)
 itchat.run()
