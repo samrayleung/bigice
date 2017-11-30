@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}BigIce{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    {% if not known %}
+    <p>Pleased to meet you!</p>
+    {% else %}
+    <p>Happy to see you again!</p>
+    {% endif %}
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>from user name</th>
+      <th>to user name</th>
+      <th>content</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for message in messages.items %}
+    <tr>
+      <th scope="row">{{message.id}}</th>
+      <td>{{message.from_user_name|truncate(16,True)}}</td>
+      <td>{{message.to_user_name|truncate(16,True)}}</td>
+      <td>{{message.content}}</td>
+      <td>{{message.timestamp}}</td>
+    </tr>
+    {% endfor %}
+{% if messages.has_prev %}<a href="{{ url_for('index', page=messages.prev_num) }}">&lt;&lt; Newer messages</a>{% else %}&lt;&lt; Newer messages{% endif %} | 
+{% if messages.has_next %}<a href="{{ url_for('index', page=messages.next_num) }}">Older messages &gt;&gt;</a>{% else %}Older messages &gt;&gt;{% endif %}
+  </tbody>
+</table>
+{% endblock %}
