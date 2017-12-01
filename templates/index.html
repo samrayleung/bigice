@@ -29,11 +29,22 @@
       <td>{{message.from_user_name|truncate(16,True)}}</td>
       <td>{{message.to_user_name|truncate(16,True)}}</td>
       <td>{{message.content}}</td>
-      <td>{{message.timestamp}}</td>
+      <td>{{message.timestamp|datetime}}</td>
     </tr>
     {% endfor %}
-{% if messages.has_prev %}<a href="{{ url_for('index', page=messages.prev_num) }}">&lt;&lt; Newer messages</a>{% else %}&lt;&lt; Newer messages{% endif %} | 
-{% if messages.has_next %}<a href="{{ url_for('index', page=messages.next_num) }}">Older messages &gt;&gt;</a>{% else %}Older messages &gt;&gt;{% endif %}
   </tbody>
 </table>
+<div>
+  {% for page in messages.iter_pages() %}
+    {% if page %}
+	{% if page!=messages.page %}
+	    <a href="{{ url_for('index',page=page)}}">{{page}}</a>
+	{% else %}
+	    <strong>{{page}}</strong>
+	{% endif %}
+    {% else %}
+    <span class="cllipsis">...</span>
+    {% endif %}
+  {% endfor %}
+</div>
 {% endblock %}

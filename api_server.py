@@ -51,7 +51,16 @@ def index(page=1):
         name = form.name.data
         form.name = ''
     messages = Message.query.paginate(page, per_page, error_out=False)
-    return render_template('index.html', form=form, name=name, messages=messages)
+    return render_template('index.html',
+                           form=form, name=name, messages=messages)
+
+
+def unixtime_to_datetime(value):
+    if value:
+        return datetime.fromtimestamp(int(value)).strftime('%Y-%m-%d %H:%M:%S')
+
+
+app.jinja_env.filters['datetime'] = unixtime_to_datetime
 
 
 def make_shell_context():
